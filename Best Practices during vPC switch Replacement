@@ -1,4 +1,5 @@
-Best Practices during vPC switch Replacement
+Reference https://www.cisco.com/c/en/us/support/docs/switches/nexus-9000-series-switches/218333-understand-and-configure-nexus-9000-vpc.html
+#Best Practices during vPC switch Replacement
 Pre-Checks
 show version
 show module
