@@ -1,0 +1,115 @@
+Best Practices during vPC switch Replacement
+Pre-Checks
+show version
+show module
+show spanning-tree summary
+show vlan summary
+show ip interface brief
+show port-channel summary
+show vpc
+show vpc brief
+show vpc role
+show vpc peer-keepalives
+show vpc statistics peer-keepalive
+show vpc consistency-parameters global
+show vpc consistency-parameters interface port-channel<>
+show vpc consistency-parameters vlans
+show run vpc all
+show hsrp brief
+show hsrp
+show run hsrp
+show hsrp interface vlan <vlan_number>
+Show vrrp
+Show vrrp brief
+Show vrrp interface vlan <vlan_number>
+Show run vrrp
+Steps
+Shut down all vPC member ports one by one.
+Shut down all orphan ports.
+Shut down all Layer 3 physical links one by one.
+Shut down the vPC Peer Keep Alive (PKA) link.
+Shut down the vPC Peer-link.
+Ensure that all the ports are down on the problematic switch.
+Ensure the traffic is diverted to the Redundant switch via shared commands on the redundant switch.
+
+      show vpc
+      show vpc statistics
+      show ip route vrf all summary
+      show ip mroute vrf all summary
+      show ip interface brief
+      show interface status
+      show port-channel summary
+      show hsrp brief
+      Show vrrp brief
+Ensure the replacement device is set up with the correct image and license.
+
+      show version
+      show module
+      show diagnostic results module all detail
+      show license
+      show license usage
+      show system internal mts buffer summary|detail
+      show logging logfile
+      show logging nvram
+Configure the switch with the backup configuration correctly.
+If auto-recovery is enabled, disable it during replacement.
+
+Leaf-2(config)# vpc domain 1
+Leaf-2(config-vpc-domain)# no auto-recovery
+Leaf-2(config-if)# show vpc bri 
+Legend: 
+(*) - local vPC is down, forwarding via vPC peer-link 
+vPC domain id : 1 
+Peer status : peer adjacency formed ok  
+vPC keep-alive status : peer is alive  
+Configuration consistency status : success 
+Per-vlan consistency status : success 
+Type-2 consistency status : success 
+vPC role : primary 
+Number of vPCs configured : 1 
+Peer Gateway : Enabled 
+Dual-active excluded VLANs : - Graceful Consistency Check : Enabled 
+Auto-recovery status : Disabled 
+Delay-restore status : Timer is off. (timeout = 30s) 
+Delay-restore SVI status : Timer is off (timeout = 10s) 
+Delay-restore Orphan-port status : Timer is off.(timeout = 0s) 
+Operational Layer3 Peer-router : Disabled 
+Virtual-peerlink mode : Disabled
+Ensure the Sticky bit is set to False.
+
+Leaf-5(config-vpc-domain)# show sys internal vpcm info all | i i stick
+OOB Peer Version: 2 OOB peer was alive: TRUE Sticky Master: FALSE
+If the Sticky bit is set to True, reconfigure the vPC role priority. This means to reapply the original configuration for the role priority.
+vPC domain 1     <==  1 is vPC domain number mentioned on the original switch
+role priority 2000   <== example: if 2000 is vPC role priority set on original switch
+Bring up the interfaces strictly in this order:
+Bring up the Peer Keep-alive Link.
+Bring up the vPC peer-link.
+Confirm that the vPC role established correctly.
+Bring up rest of the interfaces on the switches one by one in this order:
+vPC member ports
+Orphan ports (Non-vPC ports)
+Layer-3 physical interface
+Post Validation Check
+      show version
+      show module
+      show diagnostics result module all detail
+      show environment
+      show license usage
+      show interface status
+      show ip interface brief
+      show interface status err-disabled
+      show cdp neighbors
+      show redundancy status
+      show spanning-tree summary
+      show port-channel summary
+      show vpc
+      show vpc brief
+      show vpc role
+      show vpc peer-keepalives
+      show vpc statistics peer-keepalive
+      show vpc consistency-parameters global
+      show vpc consistency-parameters interface port-channel1
+      show vpc consistency-parameters vlans
+      show hsrp brief
+     show vrrp brief
