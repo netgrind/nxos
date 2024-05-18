@@ -1,0 +1,36 @@
+The vPC domain includes both vPC peer devices
+  enable the vPC feature before you can configure or run the vPC functionality.
+  create the peer-keepalive link
+  the vPC peer-keepalive link, recommend that you associate a peer-keepalive link to a separate virtual routing and forwarding (VRF) instance that is mapped to a Layer 3 interface in each vPC peer deviceNo data or synchronization traffic moves over the vPC peer-keepalive link
+  the vPC Peer-Link,
+  All of the port channels in the vPC domain connected to the downstream device. 
+  associate the vPC peer-keepalive link to a separate VRF mapped to a Layer 3 interface in each vPC peer device.
+  Ensure that both the source and destination IP addresses used for the peer-keepalive messages are unique in your network and these IP addresses are reachable from the VRF associated with the vPC peer-keepalive link.
+  Peer-keepalive IP addresses must be global unicast addresses
+  You can have only one vPC domain ID on each device.
+
+show hardware feature-capability (shows compatibility of hardware/software and commands on device)
+Cisco Nexus 9500 switches
+  configure the vPC Peer-Links on dedicated ports of different modules
+  configure the vPC Peer-Link Layer 2 port channels as trunks using 2 or more Ethernet ports (Higher then 1-Gigabit)
+
+Features That You Must Manually Configure on the Primary and Secondary Devices
+  STP root
+    Configure the primary vPC peer device as the STP primary root device 
+    configure the vPC secondary device to be the STP secondary root device.
+  Bridge Assurance
+    configure the vPC Peer-Link interfaces as STP network ports so that Bridge Assurance is enabled on all vPC Peer-Links
+  PVST+ & MST
+    configure Rapid per VLAN Spanning Tree plus (PVST+) so that the primary device is the root for all VLANs
+    configure Multiple Spanning Tree (MST) so that the primary device is the root for all instances.
+  Layer 3 VLAN network interface
+    Configure Layer 3 connectivity from each vPC peer device by configuring a VLAN network interface for the same VLAN from both devices.
+  HSRP
+    configure the primary vPC peer device with the HSRP active highest priority
+    configure the secondary device to be the HSRP standby
+    ensure that you have VLAN interfaces on each vPC device that are in the same administrative and operational mode
+  LACP  
+    If LACP is used as port-channel aggregation protocol, UDLD is not required in a vPC domain
+
+
+ref:https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/104x/configuration/interfaces/cisco-nexus-9000-series-nx-os-interfaces-configuration-guide-release-104x/m_configuring_vpcs_9x.html#concept_59F5916C050A4EDA8FF9C677298AF998
