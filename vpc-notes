@@ -32,5 +32,14 @@ Features That You Must Manually Configure on the Primary and Secondary Devices
   LACP  
     If LACP is used as port-channel aggregation protocol, UDLD is not required in a vPC domain
 
+Keep-alive port configuration
+  Use the command-line interface (CLI) to configure the interfaces you are using the vPC peer-keepalive messages as trusted ports
+class-map type qos match-all trust-map
+  match cos 4-7
+policy-map type qos ingresspolicy
+  class trust-map
+interface {intf x/x}
+  service-policy type qos input ingresspolicy
+
 
 ref:https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/104x/configuration/interfaces/cisco-nexus-9000-series-nx-os-interfaces-configuration-guide-release-104x/m_configuring_vpcs_9x.html#concept_59F5916C050A4EDA8FF9C677298AF998
